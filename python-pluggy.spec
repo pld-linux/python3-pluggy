@@ -1,6 +1,5 @@
-
+#
 # Conditional build:
-# %%bcond_without	doc	# don't build doc
 %bcond_without	tests	# do not perform "make test"
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
@@ -15,7 +14,7 @@ License:	MIT
 Group:		Libraries/Python
 Source0:	https://pypi.python.org/packages/1b/a9/6f5f80b75a8d84d21a8a13486fe26a2da9f043f93b464b2e3928be256dc4/pluggy-%{version}.tar.gz
 # Source0-md5:	ecdd791e309f60668b66fec97c2ee7db
-URL:		https://pypi.python.org/pypi/%{module}
+URL:		https://pypi.python.org/pypi/pluggy
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with python2}
@@ -81,10 +80,8 @@ rm -rf _build/html/_sources
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %if %{with python2}
 %py_install
-
 %py_postclean
 %endif
 
@@ -99,10 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG README.rst
-%{py_sitescriptdir}/%{module}.py*
-%if "%{py_ver}" > "2.4"
+%{py_sitescriptdir}/%{module}.py[co]
 %{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
-%endif
 %endif
 
 %if %{with python3}
