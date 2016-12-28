@@ -9,7 +9,7 @@ Summary:	Plugin and hook calling mechanisms for Python
 Summary(pl.UTF-8):	Mechanizmy wtyczek dla Pythona
 Name:		python-%{module}
 Version:	0.3.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries/Python
 Source0:	https://pypi.python.org/packages/1b/a9/6f5f80b75a8d84d21a8a13486fe26a2da9f043f93b464b2e3928be256dc4/pluggy-%{version}.tar.gz
