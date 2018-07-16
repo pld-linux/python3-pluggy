@@ -8,26 +8,31 @@
 Summary:	Plugin and hook calling mechanisms for Python
 Summary(pl.UTF-8):	Mechanizmy wtyczek dla Pythona
 Name:		python-%{module}
-Version:	0.3.1
-Release:	3
+Version:	0.6.0
+Release:	1
 License:	MIT
 Group:		Libraries/Python
-Source0:	https://pypi.python.org/packages/1b/a9/6f5f80b75a8d84d21a8a13486fe26a2da9f043f93b464b2e3928be256dc4/pluggy-%{version}.tar.gz
-# Source0-md5:	ecdd791e309f60668b66fec97c2ee7db
-URL:		https://pypi.python.org/pypi/pluggy
+#Source0Download: https://pypi.org/simple/pluggy/
+Source0:	https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-%{version}.tar.gz
+# Source0-md5:	ffdde7c3a5ba9a440404570366ffb6d5
+URL:		https://pypi.org/project/pluggy/
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with python2}
-BuildRequires:	python-modules
-BuildRequires:	python-pytest
+BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-pytest
+%endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-modules
-BuildRequires:	python3-pytest
+BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-pytest
 %endif
-Requires:	python-modules
+%endif
+Requires:	python-modules >= 1:2.7
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,7 +48,7 @@ specyficznych dla pytest.
 Summary:	Plugin and hook calling mechanisms for Python
 Summary(pl.UTF-8):	Mechanizmy wtyczek dla Pythona
 Group:		Libraries/Python
-Requires:	python3-modules
+Requires:	python3-modules >= 1:3.4
 
 %description -n python3-%{module}
 Plugin manager as used by pytest but stripped of pytest specific
@@ -53,39 +58,32 @@ details.
 Zarządca wtyczek tak jak używany przez pytest, ale pozbawiony detali
 specyficznych dla pytest.
 
-%package apidocs
-Summary:	%{module} API documentation
-Summary(pl.UTF-8):	Dokumentacja API %{module}
-Group:		Documentation
-
-%description apidocs
-API documentation for %{module}.
-
-%description apidocs -l pl.UTF-8
-Dokumentacja API %{module}.
-
 %prep
 %setup -q -n %{module}-%{version}
 
 %build
 %if %{with python2}
-%py_build %{?with_tests:test}
+%py_build
+
+%if %{with tests}
+%{__python} -m pytest testing
+%endif
 %endif
 
 %if %{with python3}
-%py3_build %{?with_tests:test}
-%endif
+%py3_build
 
-%if %{with doc}
-cd docs
-%{__make} -j1 html
-rm -rf _build/html/_sources
+%if %{with tests}
+%{__python3} -m pytest testing
+%endif
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %if %{with python2}
 %py_install
+
 %py_postclean
 %endif
 
@@ -99,22 +97,15 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG README.rst
-%{py_sitescriptdir}/%{module}.py[co]
-%{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%doc LICENSE README.rst
+%{py_sitescriptdir}/pluggy
+%{py_sitescriptdir}/pluggy-%{version}-py*.egg-info
 %endif
 
 %if %{with python3}
 %files -n python3-%{module}
 %defattr(644,root,root,755)
-%doc CHANGELOG README.rst
-%{py3_sitescriptdir}/%{module}.py
-%{py3_sitescriptdir}/__pycache__/%{module}.*.pyc
-%{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
-%endif
-
-%if %{with doc}
-%files apidocs
-%defattr(644,root,root,755)
-%doc docs/_build/html/*
+%doc LICENSE README.rst
+%{py3_sitescriptdir}/pluggy
+%{py3_sitescriptdir}/pluggy-%{version}-py*.egg-info
 %endif
