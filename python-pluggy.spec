@@ -8,13 +8,13 @@
 Summary:	Plugin and hook calling mechanisms for Python
 Summary(pl.UTF-8):	Mechanizmy wtyczek dla Pythona
 Name:		python-%{module}
-Version:	0.6.0
+Version:	0.8.0
 Release:	1
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/pluggy/
 Source0:	https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-%{version}.tar.gz
-# Source0-md5:	ffdde7c3a5ba9a440404570366ffb6d5
+# Source0-md5:	12ddd25322d909a286c4018d18fddc79
 URL:		https://pypi.org/project/pluggy/
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -22,14 +22,14 @@ BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	python-setuptools
 %if %{with tests}
-BuildRequires:	python-pytest
+BuildRequires:	python-pytest >= 3.7.0
 %endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-setuptools
 %if %{with tests}
-BuildRequires:	python3-pytest
+BuildRequires:	python3-pytest >= 3.7.0
 %endif
 %endif
 Requires:	python-modules >= 1:2.7
