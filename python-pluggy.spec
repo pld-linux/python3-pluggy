@@ -102,7 +102,7 @@ PYTHONPATH=$(pwd)/src \
 %endif
 
 %if %{with doc}
-sphinx-build -b html docs docs/_build/html
+PYTHONPATH="$PWD/src" sphinx-build -b html docs docs/_build/html
 %endif
 
 %install
