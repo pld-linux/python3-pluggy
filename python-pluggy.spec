@@ -9,6 +9,7 @@
 Summary:	Plugin and hook calling mechanisms for Python
 Summary(pl.UTF-8):	Mechanizmy wtyczek dla Pythona
 Name:		python-%{module}
+# keep 0.13.x here for python2 support
 Version:	0.13.1
 Release:	2
 License:	MIT
@@ -87,6 +88,7 @@ Dokumentacja API modułu Pythona pluggy.
 %py_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTHONPATH=$(pwd)/src \
 %{__python} -m pytest testing
 %endif
@@ -96,13 +98,15 @@ PYTHONPATH=$(pwd)/src \
 %py3_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTHONPATH=$(pwd)/src \
 %{__python3} -m pytest testing
 %endif
 %endif
 
 %if %{with doc}
-PYTHONPATH="$PWD/src" sphinx-build -b html docs docs/_build/html
+PYTHONPATH="$PWD/src" \
+sphinx-build -b html docs docs/_build/html
 %endif
 
 %install
